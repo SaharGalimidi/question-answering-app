@@ -8,7 +8,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y gcc
 
 # Copy the requirements file into the container
-COPY ./app/requirements.txt .
+COPY ./app/requirements.txt /app/requirements.txt
 
 # Install the required packages
 RUN pip install --no-cache-dir -r requirements.txt
