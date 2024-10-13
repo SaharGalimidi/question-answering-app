@@ -34,13 +34,11 @@ cd question-answering-app
 ### 2. Set up Environment Variables
 
 Create a `.env` file in the root directory of the project and add the following variables:
-
-\`\`\`
-# .env
+```bash
 SECRET_KEY=your-secret-key
 OPENAI_API_KEY=your-openai-api-key
 DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres
-\`\`\`
+```
 
 ### 3. Build and Run the Containers
 
