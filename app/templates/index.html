@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header">
+            <h1>Welcome to the Question Answering App</h1>
+        </div>
+        <div class="card-body">
+            <p class="lead text-center">This is a simple question answering app that uses a pre-trained model to answer your questions.</p>
+            <div class="text-center">
+                <a href="{{ url_for('main.ask_question') }}" class="btn btn-primary btn-lg">Ask a Question</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

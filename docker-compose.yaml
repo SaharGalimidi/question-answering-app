@@ -1,0 +1,79 @@
+# services:
+#   app:
+#     build:
+#       context: .
+#       dockerfile: ./app/Dockerfile
+#     container_name: app
+#     ports:
+#       - "5000:5000"
+#     depends_on:
+#       postgres:
+#         condition: service_healthy
+#     env_file:
+#       - .env
+    
+#   postgres:
+#     build:
+#       context: .
+#       dockerfile: ./libs/postgres/Dockerfile
+#     container_name: postgres
+#     ports:
+#       - "5432:5432"
+#     healthcheck:
+#       test: ["CMD-SHELL", "pg_isready -U postgres"]
+#       interval: 10s
+#       timeout: 5s
+#       retries: 5
+#     env_file:
+#       - .env
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data
+  
+# volumes:
+#   postgres_data:
+
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./app/Dockerfile
+    container_name: app
+    ports:
+      - "5000:5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    command: >
+      sh -c "
+      if [ ! -d 'migrations/versions' ]; then
+        flask db init &&
+        flask db migrate -m 'Initial migration' &&
+        flask db upgrade;
+      else
+        flask db upgrade;
+      fi;
+      flask run --host=0.0.0.0"
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./libs/postgres/Dockerfile
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  
+volumes:
+  postgres_data:
